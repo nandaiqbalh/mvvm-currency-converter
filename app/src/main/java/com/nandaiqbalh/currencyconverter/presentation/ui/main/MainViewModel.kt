@@ -6,12 +6,14 @@ import com.nandaiqbalh.currencyconverter.data.network.models.Rates
 import com.nandaiqbalh.currencyconverter.data.network.repository.MainRepository
 import com.nandaiqbalh.currencyconverter.util.DispatcherProvider
 import com.nandaiqbalh.currencyconverter.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.round
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
 	private val mainRepository: MainRepository,
 	private val dispatcherProvider: DispatcherProvider
@@ -52,7 +54,7 @@ class MainViewModel @Inject constructor(
 					if (rate == null){
 						_conversion.value = CurrencyEvent.Failure("Unexpected error occured!")
 					} else{
-						val convertedCurrency = (Math.round(fromAmount * rate * 100) / 100.0).toFloat()
+						val convertedCurrency = fromAmount
 						_conversion.value = CurrencyEvent.Success(
 							"$fromAmount $fromCurrency = $convertedCurrency $toCurrency "
 						)
